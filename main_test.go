@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"testing"
 
 	"slices"
@@ -22,15 +21,15 @@ func TestTranspose(t *testing.T) {
 		},
 		{
 			input:  []uint8{1},
-			output: [][]bit{{0}, {0}, {0}, {0}, {0}, {0}, {0}, {1}},
+			output: [][]bit{{1}, {0}, {0}, {0}, {0}, {0}, {0}, {0}},
 		},
 		{
 			input:  []uint8{2},
-			output: [][]bit{{0}, {0}, {0}, {0}, {0}, {0}, {1}, {0}},
+			output: [][]bit{{0}, {1}, {0}, {0}, {0}, {0}, {0}, {0}},
 		},
 		{
 			input:  []uint8{127},
-			output: [][]bit{{0}, {1}, {1}, {1}, {1}, {1}, {1}, {1}},
+			output: [][]bit{{1}, {1}, {1}, {1}, {1}, {1}, {1}, {0}},
 		},
 		{
 			input:  []uint8{255},
@@ -42,7 +41,7 @@ func TestTranspose(t *testing.T) {
 		},
 		{
 			input:  []uint8{0, 1},
-			output: [][]bit{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 1}},
+			output: [][]bit{{0, 1}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},
 		},
 		{
 			input:  []uint8{255, 0},
@@ -54,11 +53,16 @@ func TestTranspose(t *testing.T) {
 		if !slices.EqualFunc(tc.output, got, func(s1, s2 []bit) bool {
 			return slices.Equal(s1, s2)
 		}) {
-
-			//fmt.P intln(cap(tc.output[0]))
-			fmt.Println(cap(got[0]))
-			t.Fatalf("test %v: expected %v, got %v", tc.input, tc.output, got)
+			t.Fatalf("reference implementation is wrong: %v: expected %v, got %v", tc.input, tc.output, got)
 		}
+		/*
+			newGot := TransposeNew(tc.input)
+			if !slices.EqualFunc(tc.output, newGot, func(s1, s2 []bit) bool {
+				return slices.Equal(s1, s2)
+			}) {
+				t.Fatalf("new implementation is wrong: %v: expected %v, got %v", tc.input, tc.output, newGot)
+			}
+		*/
 	}
 }
 

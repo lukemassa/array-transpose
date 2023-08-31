@@ -16,11 +16,15 @@ func Transpose(input []uint8) [][]bit {
 	for i := 0; i < bitLength; i++ {
 		ret[i] = make([]bit, originalLength)
 		for j := 0; j < originalLength; j++ {
-			ret[i][j] = getBit(input[j], bitLength-i-1)
+			bitval := getBit(input[j], i)
+			fmt.Printf("I am setting i=%d, j=%d to bit %d\n", i, j, bitval)
+			ret[i][j] = bitval
 		}
 	}
 	return ret
 }
+
+var masks = []uint8{1, 2, 4, 8, 16, 32, 64, 128}
 
 func main() {
 	test := []uint8{1, 2}
